@@ -17,12 +17,7 @@ in {
 
   time.timeZone = "Europe/Berlin";
 
-  environment.systemPackages = with pkgs; [
-    termite.terminfo
-    kitty.terminfo
-    tmux
-    git
-  ];
+  environment.systemPackages = with pkgs; [ alacritty.terminfo tmux git htop ];
 
   environment.variables.EDITOR = "vim";
 
@@ -32,7 +27,7 @@ in {
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISCKsWIhN2UBenk0kJ1Hnc+fCZC/94l6bX9C4KFyKZN cardno:FFFE43212945"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBps9Mp/xZax8/y9fW1Gt73SkskcBux1jDAB8rv0EYUt cardno:000612029874"
     ];
     packages = with pkgs; [ vim htop feh ];
   };
@@ -40,7 +35,7 @@ in {
   home-manager.users.kloenk = {
     programs = {
       fish = {
-        enable = true;
+        #enable = true;
         shellInit = "set PAGER less";
         shellAbbrs = {
           ipa = "ip a";
@@ -61,13 +56,9 @@ in {
     };
   };
 
-  programs.fish.enable = true;
-
-  users.users.root.shell = pkgs.fish;
-
   # X foo
   services.xserver = {
-    enable = true;
+    #  enable = true;
     displayManager.startx.enable = true;
     videoDrivers = [ "fbdev" ];
   };
@@ -75,14 +66,12 @@ in {
   programs.sway.enable = true;
 
   home-manager.users.kloenk.xsession = {
-    enable = true;
+    #    enable = true;
     scriptPath = ".xinitrc";
-    windowManager.i3.enable = true;
-    windowManager.i3.config.startup = [{
-      command = "${slideshow}";
-      always = false;
-      notification = false;
-    }];
+    #    windowManager.i3.enable = true;
+    #    windowManager.i3.config.startup = [
+    #    	{ command = "${slideshow}"; always = false; notification = false; }
+    #    ];
     # initExtra = ''
     #   ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
     #   ${pkgs.feh}/bin/feh --bg-fill ~/.wallpaper-image

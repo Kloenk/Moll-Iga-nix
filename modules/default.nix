@@ -1,7 +1,5 @@
 { ... }:
 
 {
-  imports = [
-    ./slideshow
-  ];
+  imports = [ ./slideshow ];
 }
