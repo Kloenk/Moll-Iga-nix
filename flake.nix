@@ -37,8 +37,19 @@
           (import ./configuration/hosts/pi/hardware-configuration.nix)
         ];
       };
+
+      pi-image = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        modules = [
+          home-manager.nixosModules.home-manager
+          ./configuration/hosts/pi/configuration.nix
+          (nixpkgs + "/nixos/modules/installer/cd-dvd/sd-image-aarch64.nix")
+        ];
+      };
     in {
 
       nixosConfigurations = { inherit pi; };
+
+      sdImage = { pi = pi-image.config.system.build.sdImage; };
     };
 }
