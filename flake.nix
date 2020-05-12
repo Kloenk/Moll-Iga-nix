@@ -44,6 +44,11 @@
           home-manager.nixosModules.home-manager
           ./configuration/hosts/pi/configuration.nix
           (nixpkgs + "/nixos/modules/installer/cd-dvd/sd-image-aarch64.nix")
+          {
+            sdImage.compressImage = false;
+            sdImage.imageBaseName = "moll-iga-nix-image";
+
+          }
         ];
       };
     in {

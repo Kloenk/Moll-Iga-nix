@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   slideshow = let
@@ -25,7 +25,6 @@ in {
     isNormalUser = true;
     uid = 1000;
     extraGroups = [ "wheel" ];
-    shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBps9Mp/xZax8/y9fW1Gt73SkskcBux1jDAB8rv0EYUt cardno:000612029874"
     ];
@@ -33,26 +32,13 @@ in {
   };
 
   home-manager.users.kloenk = {
-    programs = {
-      fish = {
-        #enable = true;
-        shellInit = "set PAGER less";
-        shellAbbrs = {
-          ipa = "ip a";
-          ipr = "ip r";
-          s = "sudo";
-          ssy = "sudo systemctl";
-          sy = "systemctl";
-        };
-        loginShellInit = ''
-          				  # Start X at login
-          					if status is-login
-              				if test -z "$DISPLAY" -a $XDG_VTNR = 1
-                  			#exec startx -- -keeptty
-              				end
-          					end
-          				'';
-      };
+    programs.bash = {
+      enable = true;
+      initExtra = ''
+        if [[ -z "$SWAYSOCK" ]] && [[ $(tty) = /dev/tty1 ]]; then
+          sway
+        fi
+      '';
     };
   };
 
@@ -63,7 +49,32 @@ in {
     videoDrivers = [ "fbdev" ];
   };
 
-  programs.sway.enable = true;
+  #programs.sway.enable = true;
+  hardware.opengl.enable = true;
+
+  home-manager.users.kloenk.wayland.windowManager.sway = {
+    enable = true;
+    config = {
+      bars = [ ];
+      modifier = "Mod4";
+      window.titlebar = true;
+      terminal = "${pkgs.alacritty}/bin/alacritty";
+      keybindings = let
+        mod =
+          config.home-manager.users.kloenk.wayland.windowManager.sway.config.modifier;
+      in {
+        "${mod}+Return" =
+          "exec ${config.home-manager.users.kloenk.wayland.windowManager.sway.config.terminal}";
+        "${mod}+Shift+q" = "kill";
+        "${mod}+Shift+e" =
+          "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
+      };
+      startup = [{
+        command = "${slideshow}";
+        always = true;
+      }];
+    };
+  };
 
   home-manager.users.kloenk.xsession = {
     #    enable = true;
