@@ -6,7 +6,7 @@ let
     seconds = 20;
   in pkgs.writeScript "slideshow.sh" ''
     #!${pkgs.bash}/bin/bash
-    feh -p -FZYD ${toString seconds} ${dir}/*
+    feh -p -FZYD $(cat /${dir}/delay.txt) ${dir}/*.png
   '';
 in {
   services.openssh.enable = true;

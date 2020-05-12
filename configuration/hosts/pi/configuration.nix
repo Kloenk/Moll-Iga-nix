@@ -24,7 +24,7 @@
 
   nix.maxJobs = lib.mkDefault 4;
 
-  fileSystems."/var/" = {
+  fileSystems."/var/log" = {
     device = "tmpfs";
     fsType = "tmpfs";
   };
