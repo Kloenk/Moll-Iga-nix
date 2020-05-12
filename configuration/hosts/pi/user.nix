@@ -57,8 +57,13 @@ in {
     config = {
       bars = [ ];
       modifier = "Mod4";
-      window.titlebar = true;
+      window.titlebar = false;
       terminal = "${pkgs.alacritty}/bin/alacritty";
+      gaps = {
+        inner = 0;
+        smartBorders = "no_gaps";
+        smartGaps = true;
+      };
       keybindings = let
         mod =
           config.home-manager.users.kloenk.wayland.windowManager.sway.config.modifier;
@@ -74,28 +79,5 @@ in {
         always = true;
       }];
     };
-  };
-
-  home-manager.users.kloenk.xsession = {
-    #    enable = true;
-    scriptPath = ".xinitrc";
-    #    windowManager.i3.enable = true;
-    #    windowManager.i3.config.startup = [
-    #    	{ command = "${slideshow}"; always = false; notification = false; }
-    #    ];
-    # initExtra = ''
-    #   ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
-    #   ${pkgs.feh}/bin/feh --bg-fill ~/.wallpaper-image
-    #   ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &
-
-    #   export XDB_SESSION_TYPE=x111
-    #   export KDE_FULL_SESSION=true
-    #   export XDG_CURRENT_DESKTOP=KDE
-    #   export GPG_TTY=$(tty)
-
-    #   ${pkgs.notify-osd}/bin/notify-osd &
-
-    #   ${pkgs.slstatus}/bin/slstatus &
-    # '';
   };
 }
