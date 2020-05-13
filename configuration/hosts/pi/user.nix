@@ -79,5 +79,8 @@ in {
         always = true;
       }];
     };
+    extraSessionCommands = ''
+      export WLR_LIBINPUT_NO_DEVICES=1
+    '';
   };
 }
